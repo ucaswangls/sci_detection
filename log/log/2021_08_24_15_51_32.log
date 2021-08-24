@@ -12,3 +12,129 @@
 2021-08-24 15:53:57,287 - main.py [line: 109] - epoch: 1, iter: 80, lr: 0.000100, loss: 47.782.
 2021-08-24 15:53:58,971 - main.py [line: 114] - epoch: 1, mean_loss: 44.716.
 2021-08-24 15:54:03,464 - main.py [line: 109] - epoch: 2, iter: 0, lr: 0.000100, loss: 51.325.
+2021-08-24 15:54:19,941 - main.py [line: 109] - epoch: 2, iter: 20, lr: 0.000100, loss: 46.236.
+2021-08-24 15:54:36,410 - main.py [line: 109] - epoch: 2, iter: 40, lr: 0.000100, loss: 43.277.
+2021-08-24 15:54:53,111 - main.py [line: 109] - epoch: 2, iter: 60, lr: 0.000100, loss: 33.700.
+2021-08-24 15:55:09,560 - main.py [line: 109] - epoch: 2, iter: 80, lr: 0.000100, loss: 39.579.
+2021-08-24 15:55:11,210 - main.py [line: 114] - epoch: 2, mean_loss: 42.922.
+2021-08-24 15:55:14,001 - main.py [line: 109] - epoch: 3, iter: 0, lr: 0.000100, loss: 44.763.
+2021-08-24 15:55:30,503 - main.py [line: 109] - epoch: 3, iter: 20, lr: 0.000100, loss: 31.926.
+2021-08-24 15:55:46,953 - main.py [line: 109] - epoch: 3, iter: 40, lr: 0.000100, loss: 51.933.
+2021-08-24 15:56:03,423 - main.py [line: 109] - epoch: 3, iter: 60, lr: 0.000100, loss: 41.330.
+2021-08-24 15:56:19,904 - main.py [line: 109] - epoch: 3, iter: 80, lr: 0.000100, loss: 36.615.
+2021-08-24 15:56:21,575 - main.py [line: 114] - epoch: 3, mean_loss: 39.522.
+2021-08-24 15:56:26,643 - main.py [line: 109] - epoch: 4, iter: 0, lr: 0.000100, loss: 37.586.
+2021-08-24 15:56:44,726 - main.py [line: 109] - epoch: 4, iter: 20, lr: 0.000100, loss: 42.030.
+2021-08-24 15:57:01,603 - main.py [line: 109] - epoch: 4, iter: 40, lr: 0.000100, loss: 40.081.
+2021-08-24 15:57:18,298 - main.py [line: 109] - epoch: 4, iter: 60, lr: 0.000100, loss: 32.928.
+2021-08-24 15:57:34,709 - main.py [line: 109] - epoch: 4, iter: 80, lr: 0.000100, loss: 42.499.
+2021-08-24 15:57:36,389 - main.py [line: 114] - epoch: 4, mean_loss: 37.195.
+2021-08-24 15:57:39,471 - main.py [line: 109] - epoch: 5, iter: 0, lr: 0.000100, loss: 36.746.
+2021-08-24 15:57:55,956 - main.py [line: 109] - epoch: 5, iter: 20, lr: 0.000100, loss: 50.925.
+2021-08-24 15:58:12,440 - main.py [line: 109] - epoch: 5, iter: 40, lr: 0.000100, loss: 29.217.
+2021-08-24 15:58:28,908 - main.py [line: 109] - epoch: 5, iter: 60, lr: 0.000100, loss: 43.293.
+2021-08-24 15:58:46,159 - main.py [line: 109] - epoch: 5, iter: 80, lr: 0.000100, loss: 33.340.
+2021-08-24 15:58:47,874 - main.py [line: 114] - epoch: 5, mean_loss: 37.600.
+2021-08-24 15:58:52,753 - main.py [line: 109] - epoch: 6, iter: 0, lr: 0.000100, loss: 30.922.
+2021-08-24 15:59:09,509 - main.py [line: 109] - epoch: 6, iter: 20, lr: 0.000100, loss: 39.001.
+2021-08-24 15:59:26,022 - main.py [line: 109] - epoch: 6, iter: 40, lr: 0.000100, loss: 27.509.
+2021-08-24 15:59:42,896 - main.py [line: 109] - epoch: 6, iter: 60, lr: 0.000100, loss: 28.842.
+2021-08-24 15:59:59,555 - main.py [line: 109] - epoch: 6, iter: 80, lr: 0.000100, loss: 28.874.
+2021-08-24 16:00:01,250 - main.py [line: 114] - epoch: 6, mean_loss: 35.027.
+2021-08-24 16:00:04,664 - main.py [line: 109] - epoch: 7, iter: 0, lr: 0.000100, loss: 35.761.
+2021-08-24 16:00:21,261 - main.py [line: 109] - epoch: 7, iter: 20, lr: 0.000100, loss: 37.038.
+2021-08-24 16:00:38,341 - main.py [line: 109] - epoch: 7, iter: 40, lr: 0.000100, loss: 38.943.
+2021-08-24 16:00:54,829 - main.py [line: 109] - epoch: 7, iter: 60, lr: 0.000100, loss: 34.225.
+2021-08-24 16:01:12,160 - main.py [line: 109] - epoch: 7, iter: 80, lr: 0.000100, loss: 40.746.
+2021-08-24 16:01:13,992 - main.py [line: 114] - epoch: 7, mean_loss: 36.326.
+2021-08-24 16:01:19,258 - main.py [line: 109] - epoch: 8, iter: 0, lr: 0.000100, loss: 35.067.
+2021-08-24 16:01:37,510 - main.py [line: 109] - epoch: 8, iter: 20, lr: 0.000100, loss: 32.642.
+2021-08-24 16:01:55,364 - main.py [line: 109] - epoch: 8, iter: 40, lr: 0.000100, loss: 37.948.
+2021-08-24 16:02:12,583 - main.py [line: 109] - epoch: 8, iter: 60, lr: 0.000100, loss: 26.150.
+2021-08-24 16:02:29,674 - main.py [line: 109] - epoch: 8, iter: 80, lr: 0.000100, loss: 35.853.
+2021-08-24 16:02:31,301 - main.py [line: 114] - epoch: 8, mean_loss: 35.327.
+2021-08-24 16:02:34,974 - main.py [line: 109] - epoch: 9, iter: 0, lr: 0.000100, loss: 26.201.
+2021-08-24 16:02:52,300 - main.py [line: 109] - epoch: 9, iter: 20, lr: 0.000100, loss: 31.540.
+2021-08-24 16:03:10,471 - main.py [line: 109] - epoch: 9, iter: 40, lr: 0.000100, loss: 26.886.
+2021-08-24 16:03:27,419 - main.py [line: 109] - epoch: 9, iter: 60, lr: 0.000100, loss: 32.657.
+2021-08-24 16:03:44,664 - main.py [line: 109] - epoch: 9, iter: 80, lr: 0.000100, loss: 31.491.
+2021-08-24 16:03:46,225 - main.py [line: 114] - epoch: 9, mean_loss: 32.498.
+2021-08-24 16:03:51,440 - main.py [line: 109] - epoch: 10, iter: 0, lr: 0.000090, loss: 27.779.
+2021-08-24 16:04:08,068 - main.py [line: 109] - epoch: 10, iter: 20, lr: 0.000090, loss: 40.186.
+2021-08-24 16:04:24,548 - main.py [line: 109] - epoch: 10, iter: 40, lr: 0.000090, loss: 29.772.
+2021-08-24 16:04:41,479 - main.py [line: 109] - epoch: 10, iter: 60, lr: 0.000090, loss: 26.315.
+2021-08-24 16:04:58,478 - main.py [line: 109] - epoch: 10, iter: 80, lr: 0.000090, loss: 28.856.
+2021-08-24 16:05:00,167 - main.py [line: 114] - epoch: 10, mean_loss: 31.230.
+2021-08-24 16:05:03,433 - main.py [line: 109] - epoch: 11, iter: 0, lr: 0.000090, loss: 25.877.
+2021-08-24 16:05:20,199 - main.py [line: 109] - epoch: 11, iter: 20, lr: 0.000090, loss: 40.353.
+2021-08-24 16:05:36,858 - main.py [line: 109] - epoch: 11, iter: 40, lr: 0.000090, loss: 37.606.
+2021-08-24 16:05:53,613 - main.py [line: 109] - epoch: 11, iter: 60, lr: 0.000090, loss: 42.792.
+2021-08-24 16:06:10,226 - main.py [line: 109] - epoch: 11, iter: 80, lr: 0.000090, loss: 38.627.
+2021-08-24 16:06:11,928 - main.py [line: 114] - epoch: 11, mean_loss: 32.879.
+2021-08-24 16:06:16,416 - main.py [line: 109] - epoch: 12, iter: 0, lr: 0.000090, loss: 29.821.
+2021-08-24 16:06:33,404 - main.py [line: 109] - epoch: 12, iter: 20, lr: 0.000090, loss: 33.280.
+2021-08-24 16:06:50,239 - main.py [line: 109] - epoch: 12, iter: 40, lr: 0.000090, loss: 25.933.
+2021-08-24 16:07:07,036 - main.py [line: 109] - epoch: 12, iter: 60, lr: 0.000090, loss: 29.063.
+2021-08-24 16:07:23,606 - main.py [line: 109] - epoch: 12, iter: 80, lr: 0.000090, loss: 43.355.
+2021-08-24 16:07:25,298 - main.py [line: 114] - epoch: 12, mean_loss: 31.618.
+2021-08-24 16:07:28,513 - main.py [line: 109] - epoch: 13, iter: 0, lr: 0.000090, loss: 30.675.
+2021-08-24 16:07:45,135 - main.py [line: 109] - epoch: 13, iter: 20, lr: 0.000090, loss: 28.116.
+2021-08-24 16:08:01,756 - main.py [line: 109] - epoch: 13, iter: 40, lr: 0.000090, loss: 30.570.
+2021-08-24 16:08:18,383 - main.py [line: 109] - epoch: 13, iter: 60, lr: 0.000090, loss: 35.765.
+2021-08-24 16:08:35,261 - main.py [line: 109] - epoch: 13, iter: 80, lr: 0.000090, loss: 21.994.
+2021-08-24 16:08:36,925 - main.py [line: 114] - epoch: 13, mean_loss: 30.218.
+2021-08-24 16:08:41,248 - main.py [line: 109] - epoch: 14, iter: 0, lr: 0.000090, loss: 33.264.
+2021-08-24 16:08:58,369 - main.py [line: 109] - epoch: 14, iter: 20, lr: 0.000090, loss: 30.702.
+2021-08-24 16:09:15,548 - main.py [line: 109] - epoch: 14, iter: 40, lr: 0.000090, loss: 38.218.
+2021-08-24 16:09:32,324 - main.py [line: 109] - epoch: 14, iter: 60, lr: 0.000090, loss: 34.697.
+2021-08-24 16:09:48,899 - main.py [line: 109] - epoch: 14, iter: 80, lr: 0.000090, loss: 32.730.
+2021-08-24 16:09:50,474 - main.py [line: 114] - epoch: 14, mean_loss: 30.468.
+2021-08-24 16:09:53,176 - main.py [line: 109] - epoch: 15, iter: 0, lr: 0.000090, loss: 27.238.
+2021-08-24 16:10:10,444 - main.py [line: 109] - epoch: 15, iter: 20, lr: 0.000090, loss: 22.727.
+2021-08-24 16:10:27,260 - main.py [line: 109] - epoch: 15, iter: 40, lr: 0.000090, loss: 26.874.
+2021-08-24 16:10:44,119 - main.py [line: 109] - epoch: 15, iter: 60, lr: 0.000090, loss: 29.794.
+2021-08-24 16:11:00,771 - main.py [line: 109] - epoch: 15, iter: 80, lr: 0.000090, loss: 38.984.
+2021-08-24 16:11:02,382 - main.py [line: 114] - epoch: 15, mean_loss: 28.728.
+2021-08-24 16:11:07,509 - main.py [line: 109] - epoch: 16, iter: 0, lr: 0.000090, loss: 22.715.
+2021-08-24 16:11:24,217 - main.py [line: 109] - epoch: 16, iter: 20, lr: 0.000090, loss: 25.822.
+2021-08-24 16:11:41,100 - main.py [line: 109] - epoch: 16, iter: 40, lr: 0.000090, loss: 26.334.
+2021-08-24 16:11:57,971 - main.py [line: 109] - epoch: 16, iter: 60, lr: 0.000090, loss: 29.116.
+2021-08-24 16:12:14,643 - main.py [line: 109] - epoch: 16, iter: 80, lr: 0.000090, loss: 27.632.
+2021-08-24 16:12:16,190 - main.py [line: 114] - epoch: 16, mean_loss: 28.734.
+2021-08-24 16:12:20,092 - main.py [line: 109] - epoch: 17, iter: 0, lr: 0.000090, loss: 27.874.
+2021-08-24 16:12:37,341 - main.py [line: 109] - epoch: 17, iter: 20, lr: 0.000090, loss: 27.569.
+2021-08-24 16:12:54,322 - main.py [line: 109] - epoch: 17, iter: 40, lr: 0.000090, loss: 27.147.
+2021-08-24 16:13:11,120 - main.py [line: 109] - epoch: 17, iter: 60, lr: 0.000090, loss: 23.994.
+2021-08-24 16:13:28,258 - main.py [line: 109] - epoch: 17, iter: 80, lr: 0.000090, loss: 30.676.
+2021-08-24 16:13:29,933 - main.py [line: 114] - epoch: 17, mean_loss: 28.500.
+2021-08-24 16:13:34,854 - main.py [line: 109] - epoch: 18, iter: 0, lr: 0.000090, loss: 28.802.
+2021-08-24 16:13:52,227 - main.py [line: 109] - epoch: 18, iter: 20, lr: 0.000090, loss: 22.032.
+2021-08-24 16:14:09,211 - main.py [line: 109] - epoch: 18, iter: 40, lr: 0.000090, loss: 29.143.
+2021-08-24 16:14:26,126 - main.py [line: 109] - epoch: 18, iter: 60, lr: 0.000090, loss: 24.933.
+2021-08-24 16:14:42,804 - main.py [line: 109] - epoch: 18, iter: 80, lr: 0.000090, loss: 38.176.
+2021-08-24 16:14:44,282 - main.py [line: 114] - epoch: 18, mean_loss: 28.387.
+2021-08-24 16:14:47,212 - main.py [line: 109] - epoch: 19, iter: 0, lr: 0.000090, loss: 29.701.
+2021-08-24 16:15:04,278 - main.py [line: 109] - epoch: 19, iter: 20, lr: 0.000090, loss: 22.992.
+2021-08-24 16:15:20,861 - main.py [line: 109] - epoch: 19, iter: 40, lr: 0.000090, loss: 23.266.
+2021-08-24 16:15:37,424 - main.py [line: 109] - epoch: 19, iter: 60, lr: 0.000090, loss: 32.616.
+2021-08-24 16:15:53,952 - main.py [line: 109] - epoch: 19, iter: 80, lr: 0.000090, loss: 30.229.
+2021-08-24 16:15:55,587 - main.py [line: 114] - epoch: 19, mean_loss: 28.216.
+2021-08-24 16:16:00,331 - main.py [line: 109] - epoch: 20, iter: 0, lr: 0.000081, loss: 24.937.
+2021-08-24 16:16:16,936 - main.py [line: 109] - epoch: 20, iter: 20, lr: 0.000081, loss: 28.737.
+2021-08-24 16:16:33,715 - main.py [line: 109] - epoch: 20, iter: 40, lr: 0.000081, loss: 21.355.
+2021-08-24 16:16:50,647 - main.py [line: 109] - epoch: 20, iter: 60, lr: 0.000081, loss: 28.219.
+2021-08-24 16:17:07,230 - main.py [line: 109] - epoch: 20, iter: 80, lr: 0.000081, loss: 31.803.
+2021-08-24 16:17:08,867 - main.py [line: 114] - epoch: 20, mean_loss: 27.328.
+2021-08-24 16:17:12,371 - main.py [line: 109] - epoch: 21, iter: 0, lr: 0.000081, loss: 20.221.
+2021-08-24 16:17:28,814 - main.py [line: 109] - epoch: 21, iter: 20, lr: 0.000081, loss: 25.323.
+2021-08-24 16:17:45,265 - main.py [line: 109] - epoch: 21, iter: 40, lr: 0.000081, loss: 18.476.
+2021-08-24 16:18:01,763 - main.py [line: 109] - epoch: 21, iter: 60, lr: 0.000081, loss: 18.936.
+2021-08-24 16:18:18,348 - main.py [line: 109] - epoch: 21, iter: 80, lr: 0.000081, loss: 29.293.
+2021-08-24 16:18:20,004 - main.py [line: 114] - epoch: 21, mean_loss: 25.915.
+2021-08-24 16:18:24,124 - main.py [line: 109] - epoch: 22, iter: 0, lr: 0.000081, loss: 32.648.
+2021-08-24 16:18:40,730 - main.py [line: 109] - epoch: 22, iter: 20, lr: 0.000081, loss: 25.248.
+2021-08-24 16:18:57,294 - main.py [line: 109] - epoch: 22, iter: 40, lr: 0.000081, loss: 22.525.
+2021-08-24 16:19:13,856 - main.py [line: 109] - epoch: 22, iter: 60, lr: 0.000081, loss: 21.731.
+2021-08-24 16:19:30,378 - main.py [line: 109] - epoch: 22, iter: 80, lr: 0.000081, loss: 19.755.
+2021-08-24 16:19:32,069 - main.py [line: 114] - epoch: 22, mean_loss: 26.937.
+2021-08-24 16:19:35,323 - main.py [line: 109] - epoch: 23, iter: 0, lr: 0.000081, loss: 29.211.

@@ -33,6 +33,18 @@ class ConvBlock(nn.Module):
     def forward(self,input):
         x=self.conv1(input)
         return self.relu(self.bn(x))
+class SpatialAttention(nn.Module):
+    def __init__(self,kernel_size=7):
+        super(SpatialAttention,self).__init__()
+        padding = 3 if kernel_size==7 else 1
+        self.conv = nn.Conv2d(2,1,kernel_size=kernel_size,padding=padding,bias=False)
+        self.sigmoid = nn.Sigmoid()
+    def forward(self,x):
+        avgout = torch.mean(x,dim=1,keepdim=True)
+        maxout,_ = torch.max(x,dim=1,keepdim=True)
+        x = torch.cat([avgout,maxout],dim=1)
+        x = self.conv(x)
+        return self.sigmoid(x)
 
 class FeatureFusionModule(nn.Module):
     def __init__(self,num_classes,in_channels):
@@ -69,6 +81,7 @@ class CombineModel(nn.Module):
         self.conv_list1 = nn.ModuleList()
         self.conv_list2 = nn.ModuleList()
         self.conv_last = nn.ModuleList()
+        self.spatial_att = nn.ModuleList()
         self.num = 8
         self.heads = opt.heads
         last_out = 256 
@@ -106,6 +119,9 @@ class CombineModel(nn.Module):
             #     nn.ReLU()
             #     )
             # )
+            self.spatial_att.append(
+                SpatialAttention()
+            )
             self.conv_last.append(
                 FeatureFusionModule(last_out,last_out//2)
             )
@@ -149,6 +165,8 @@ class CombineModel(nn.Module):
             input = admm_out[:,i].unsqueeze(1)
             out = self.conv_list1[i](input)
             out = self.conv_list2[i](out)
+            spatil_attention = self.spatial_att[i](out)
+            feat_out = spatil_attention*feat_out
             out = self.conv_last[i](out,feat_out)
             per_frame_out_dict = {}
             for head in self.heads:

@@ -72,6 +72,7 @@ def train(args,network,logger,writer=None):
             heatmap = batch_data["heatmap"]
             box_target = batch_data["box_target"]
             reg_weight = batch_data["reg_weight"]
+            # loss1 = criterion(pred_heatmap,heatmap,pred_wh,box_target,reg_weight)
             loss1 = criterion(pred_heatmap,heatmap)
             
             frames_loss = 0
