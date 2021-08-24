@@ -71,7 +71,7 @@ class CombineModel(nn.Module):
         self.conv_last = nn.ModuleList()
         self.num = 8
         self.heads = opt.heads
-        last_out = 128 
+        last_out = 256 
         for i in range(self.num):
             self.conv_list1.append(
                 nn.Sequential(
@@ -116,6 +116,12 @@ class CombineModel(nn.Module):
                     fc = nn.Sequential(
                         nn.Conv2d(last_out, head_conv,
                             kernel_size=3, padding=1, bias=True),
+                        nn.ReLU(inplace=True),
+                        nn.Conv2d(head_conv, head_conv,
+                            kernel_size=3, padding=1, bias=True),
+                        nn.ReLU(inplace=True),
+                        nn.Conv2d(head_conv, head_conv,
+                            kernel_size=1, bias=True),
                         nn.ReLU(inplace=True),
                         nn.Conv2d(head_conv, classes, 
                             kernel_size=final_kernel, stride=1, 
