@@ -145,12 +145,12 @@ class TrainData(Dataset):
             heatmap = torch.zeros(self.num_classes, output_h, output_w)
             box_target = torch.zeros(4,output_h,output_w)
             reg_weight = torch.zeros(1,output_h,output_w)
-        import matplotlib.pyplot as plt
-        ax1 = plt.subplot(2,1,1)
-        plt.imshow(meas,alpha=1)
-        ax2 = plt.subplot(2,1,2)
-        plt.imshow(heatmap[0],alpha=1)
-        plt.show()
+        # import matplotlib.pyplot as plt
+        # ax1 = plt.subplot(2,1,1)
+        # plt.imshow(meas,alpha=1)
+        # ax2 = plt.subplot(2,1,2)
+        # plt.imshow(heatmap[0],alpha=1)
+        # plt.show()
         ret = {"input":torch.from_numpy(meas).unsqueeze(0)}
         # ret.update({'hm': hm, 'reg':reg, 'reg_mask': reg_mask, 'ind': ind, 'wh': wh })
         ret.update({"frames_hm":frames_hm,

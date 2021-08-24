@@ -13,14 +13,22 @@ class TTFLoss(nn.Module):
 
     def forward(self,
              pred_heatmap,
-             pred_wh,
              heatmap,
-             gt_bboxes,
-             wh_weight,
+             pred_wh=None,
+             gt_bboxes=None,
+             wh_weight=None,
              gt_bboxes_ignore=None):
-        hm_loss, wh_loss = self.loss_calc(pred_heatmap, pred_wh, heatmap,gt_bboxes,wh_weight)
+        if pred_wh is None:
+            hm_loss = self.loss_hm(pred_heatmap,heatmap)
+            wh_loss = 0.
+        else:
+            hm_loss, wh_loss = self.loss_calc(pred_heatmap, pred_wh, heatmap,gt_bboxes,wh_weight)
         return hm_loss + wh_loss
         # return {'losses/ttfnet_loss_heatmap': hm_loss, 'losses/ttfnet_loss_wh': wh_loss}
+    def loss_hm(self,pred_hm,heatmap):
+        pred_hm = torch.clamp(pred_hm.sigmoid_(), min=1e-4, max=1 - 1e-4)
+        hm_loss = ct_focal_loss(pred_hm, heatmap) * self.hm_weight
+        return hm_loss
     def loss_calc(self,
                   pred_hm,
                   pred_wh,
@@ -39,10 +47,8 @@ class TTFLoss(nn.Module):
             hm_loss
             wh_loss
         """
+        hm_loss = self.loss_hm(pred_hm,heatmap)
         H, W = pred_hm.shape[2:]
-        pred_hm = torch.clamp(pred_hm.sigmoid_(), min=1e-4, max=1 - 1e-4)
-        hm_loss = ct_focal_loss(pred_hm, heatmap) * self.hm_weight
-
         mask = wh_weight.view(-1, H, W)
         avg_factor = mask.sum() + 1e-4
 
