@@ -19,12 +19,18 @@ class TrainData(Dataset):
             temp_list = os.listdir(osp.join(opt.train_data_dir,image_dir,"img1"))
             temp_list.sort(key=lambda x:int(x[:-4]))
             temp_list = temp_list[:len(temp_list)//2]
-            meas_list = []
-            for i,image_name in enumerate(temp_list):
-                meas_list.append(osp.join(opt.train_data_dir,image_dir,"img1",image_name))
-                if (i+1)%opt.ratio==0:
-                    self.img_files.append(meas_list)
-                    meas_list = []
+            for tt in range(5):
+                meas_list = []
+                frame_count = 0
+                for i,image_name in enumerate(temp_list):
+                    if i % (tt+1) != 0:
+                        continue
+                    meas_list.append(osp.join(opt.train_data_dir,image_dir,"img1",image_name))
+                    frame_count +=1
+                    if frame_count%opt.ratio==0:
+                        self.img_files.append(meas_list)
+                        meas_list = []
+                        frame_count=0
         self.mask = opt.mask
         self.ratio,self.resize_h,self.resize_w = self.mask.shape
         self.output_h,self.output_w = self.resize_h//opt.down_ratio,self.resize_w//opt.down_ratio

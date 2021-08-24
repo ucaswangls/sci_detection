@@ -65,7 +65,7 @@ def test(opt):
                     count += 1
                     box = bboxes[:4]
                     x1,y1,x2,y2 = [int(x) for x in box]
-                    box[[0,2]] = box[[0,2]] + i*512
+                    box[[0,2]] = box[[0,2]] + i*
                     x1,y1,x2,y2 = [int(ii) for ii in box]
                     # 默认框的颜色是黑色，第一个参数是左上角的点坐标
                     # 第二个参数是宽，第三个参数是长
