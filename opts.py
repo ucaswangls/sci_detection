@@ -19,7 +19,7 @@ def get_args():
     parser.add_argument("--device",type=str,default="cuda")
     parser.add_argument("--amp",type=bool,default=False)
     parser.add_argument("--test_flag",type=bool,default=None)
-    parser.add_argument("--checkpoint",type=str,default=None)
+    parser.add_argument("--checkpoint",type=str,default="combine_model_42.pth")
     parser.add_argument("--checkpoints_dir",type=str,default="checkpoints")
     parser.add_argument("--train_data_dir",type=str,default="/home/wangls/datasets/MOT17/images/train")
     parser.add_argument("--test_data_dir",type=str,default="/home/wangls/datasets/MOT17/images/test")
