@@ -7,7 +7,7 @@ def get_args():
     parser.add_argument("--batch_size",type=int,default=8)
     parser.add_argument("--height",type=int,default=512)
     parser.add_argument("--width",type=int,default=512)
-    parser.add_argument("--num_workers",type=int,default=4)
+    parser.add_argument("--num_workers",type=int,default=0)
     parser.add_argument("--down_ratio",type=int,default=4)
     parser.add_argument("--ratio",type=int,default=8)
     parser.add_argument("--num_classes",type=int,default=1)
