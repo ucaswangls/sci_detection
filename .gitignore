@@ -1,4 +1,4 @@
-/checkpoints/
+checkpoints/*.pth
 /results/
 /weights/
 /temp/

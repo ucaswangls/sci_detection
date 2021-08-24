@@ -8,7 +8,7 @@ import cv2
 from utils.image import gaussian_radius, draw_umich_gaussian 
 from utils.auguments import transforms,test_transforms
 import math
-from loss.ttf_loss import *
+from utils.ttf_functions import bbox_areas, calc_region
 
 class TrainData(Dataset):
     def __init__(self,opt):
@@ -18,6 +18,7 @@ class TrainData(Dataset):
         for image_dir in os.listdir(opt.train_data_dir):
             temp_list = os.listdir(osp.join(opt.train_data_dir,image_dir,"img1"))
             temp_list.sort(key=lambda x:int(x[:-4]))
+            temp_list = temp_list[:len(temp_list)//2]
             meas_list = []
             for i,image_name in enumerate(temp_list):
                 meas_list.append(osp.join(opt.train_data_dir,image_dir,"img1",image_name))
@@ -358,10 +359,12 @@ class TestData(Dataset):
         gt_images_list = []
         for i,image_path in enumerate(self.img_files[index]):
             image = cv2.imread(image_path)
-            # im_h,im_w = image.shape[:2]
-            image = cv2.resize(image,(self.resize_w,self.resize_h))
+            im_h,im_w = image.shape[:2]
+            if im_h <512 or im_w <512:
+                image = cv2.resize(image,(512,512))
             transformed = self.transforms(image=image)
             image = transformed["image"]
+            image = cv2.resize(image,(self.resize_w,self.resize_h))
             pic_t = cv2.cvtColor(image,cv2.COLOR_BGR2YCrCb)[:,:,0]
             gt_images_list.append(pic_t)
             pic_t = pic_t.astype(np.float32)

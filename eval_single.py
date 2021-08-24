@@ -11,8 +11,7 @@ from torch.utils.data import DataLoader
 # from network import get_pose_net
 from models.combine_model import CombineModel, AdmmNet
 import matplotlib.pyplot as plt
-from utils.decode import multi_pose_decode
-from loss.ttf_loss import TTFLoss
+from utils.ttf_functions import ttf_decode
 def eval(opt):
     train_data = TrainData(opt)
     # print(opt)
@@ -33,7 +32,6 @@ def eval(opt):
             drop_last=True
     )
     print('\nStarting training...')
-    ttf = TTFLoss()
     for epoch in range(1, opt.epochs + 1):
         for iter, batch_data in enumerate(train_loader):
             for k in batch_data:
@@ -48,7 +46,7 @@ def eval(opt):
                     gt_image = gt_images[:,0]
                     # out['hm'] = torch.sigmoid(out['hm'])
                     # scores,bboxes = multi_pose_decode(out["hm"],out["wh"],out["reg"])
-                    results = ttf.get_bboxes(out["hm"],out["wh"])
+                    results = ttf_decode(out["hm"],out["wh"])
                     results_list.append(results)
             image = gt_image
             image = image.squeeze(1).cpu().numpy()

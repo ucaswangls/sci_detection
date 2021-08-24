@@ -8,10 +8,8 @@ from opts import get_args
 from torch.utils.data import DataLoader
 from models.combine_model import CombineModel,AdmmNet
 import matplotlib.pyplot as plt
-from utils.decode import multi_pose_decode
 import os.path as osp
-from loss.ttf_loss import TTFLoss
-
+from utils.ttf_functions import ttf_decode
 def test(opt):
     admm_net = AdmmNet(opt).to(opt.device)
     admm_net = admm_net.eval()
@@ -35,7 +33,6 @@ def test(opt):
             # pin_memory=True,
             drop_last=True
     )
-    ttf = TTFLoss()
     for epoch in range(start_epoch + 1, opt.epochs + 1):
         for iter, batch_data in enumerate(test_loader):
             for k in batch_data:
@@ -48,7 +45,7 @@ def test(opt):
                 gt_image = gt_images[:,0]
                 # out['hm'] = torch.sigmoid(out['hm'])
                 # scores,bboxes = multi_pose_decode(out["hm"],out["wh"],out["reg"])
-                results = ttf.get_bboxes(out["hm"],out["wh"])
+                results = ttf_decode(out["hm"],out["wh"])
             image = gt_image
             image = image.squeeze(1).cpu().numpy()
             hm = out['hm']
