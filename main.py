@@ -27,7 +27,7 @@ def train(args,network,logger,writer=None):
     #创建优化器
     optimizer = optim.Adam(network.parameters(), lr=args.lr)
     #学习率衰减
-    scheduler = optim.lr_scheduler.StepLR(optimizer,step_size=10,gamma=0.9)
+    scheduler = optim.lr_scheduler.StepLR(optimizer,step_size=20,gamma=0.6)
     #损失判别器
     # criterion = CenterNetLoss(args)
     criterion = TTFLoss().to(args.device)

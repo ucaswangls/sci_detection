@@ -12,7 +12,7 @@ def get_args():
     parser.add_argument("--ratio",type=int,default=8)
     parser.add_argument("--num_classes",type=int,default=1)
     parser.add_argument("--max_objs",type=int,default=400)
-    parser.add_argument("--lr",type=float,default=0.0001)
+    parser.add_argument("--lr",type=float,default=1e-4)
     parser.add_argument("--log_dir",type=str,default="log")
     parser.add_argument("--save_model_step",type=int,default=2)
     parser.add_argument("--show_step",type=int,default=20)
