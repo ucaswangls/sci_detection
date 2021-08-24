@@ -107,7 +107,7 @@ class CombineModel(nn.Module):
             #     )
             # )
             self.conv_last.append(
-                FeatureFusionModule(last_out,last_out)
+                FeatureFusionModule(last_out,last_out//2)
             )
 
             for head in self.heads:

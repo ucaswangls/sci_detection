@@ -1,0 +1,14 @@
+2021-08-24 15:51:36,057 - main.py [line: 137] - No pre_train model
+2021-08-24 15:51:41,184 - main.py [line: 109] - epoch: 0, iter: 0, lr: 0.000100, loss: 64.448.
+2021-08-24 15:51:57,548 - main.py [line: 109] - epoch: 0, iter: 20, lr: 0.000100, loss: 61.007.
+2021-08-24 15:52:13,802 - main.py [line: 109] - epoch: 0, iter: 40, lr: 0.000100, loss: 45.173.
+2021-08-24 15:52:30,226 - main.py [line: 109] - epoch: 0, iter: 60, lr: 0.000100, loss: 46.618.
+2021-08-24 15:52:46,715 - main.py [line: 109] - epoch: 0, iter: 80, lr: 0.000100, loss: 46.658.
+2021-08-24 15:52:48,387 - main.py [line: 114] - epoch: 0, mean_loss: 52.140.
+2021-08-24 15:52:50,682 - main.py [line: 109] - epoch: 1, iter: 0, lr: 0.000100, loss: 52.406.
+2021-08-24 15:53:07,226 - main.py [line: 109] - epoch: 1, iter: 20, lr: 0.000100, loss: 42.356.
+2021-08-24 15:53:24,152 - main.py [line: 109] - epoch: 1, iter: 40, lr: 0.000100, loss: 44.536.
+2021-08-24 15:53:40,898 - main.py [line: 109] - epoch: 1, iter: 60, lr: 0.000100, loss: 46.319.
+2021-08-24 15:53:57,287 - main.py [line: 109] - epoch: 1, iter: 80, lr: 0.000100, loss: 47.782.
+2021-08-24 15:53:58,971 - main.py [line: 114] - epoch: 1, mean_loss: 44.716.
+2021-08-24 15:54:03,464 - main.py [line: 109] - epoch: 2, iter: 0, lr: 0.000100, loss: 51.325.
