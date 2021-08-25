@@ -131,7 +131,15 @@ if __name__ == '__main__':
     #加载模型
     if args.checkpoint is not None:
         logger.info("Load pre_train model...")
-        network.load_state_dict(torch.load(osp.join(args.checkpoints_dir,args.checkpoint)))
+        model_dict = network.state_dict()
+        pretrained_dict = torch.load(osp.join(args.checkpoints_dir,args.checkpoint))
+        pretrained_dict = {k:v for k,v in pretrained_dict.items() if k in model_dict}
+        for k in pretrained_dict:
+            if model_dict[k].shape != pretrained_dict[k].shape:
+                pretrained_dict[k] = model_dict[k]
+                # print("layer: {} parameters size is not same!".format(k))
+        model_dict.update(pretrained_dict)
+        network.load_state_dict(model_dict,strict=False)
     else:
         logger.info("No pre_train model")
     #开始训练

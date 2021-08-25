@@ -1,5 +1,6 @@
 from torch import nn 
 import torch
+import torch.nn.functional as F
 from models.centernet import get_centernet
 from models.admm_net import ADMM_net
 def fill_fc_weights(layers):
@@ -33,6 +34,43 @@ class ConvBlock(nn.Module):
     def forward(self,input):
         x=self.conv1(input)
         return self.relu(self.bn(x))
+class SpatialAttention(nn.Module):
+    def __init__(self,):
+        super(SpatialAttention,self).__init__()
+        self.conv = nn.Conv2d(2,1,7,1,padding=3,bias=False)
+    def forward(self,x):
+        x_mean = torch.mean(x,dim=1,keepdim=True)
+        x_max,_ = torch.max(x,dim=1,keepdim=True)
+        x_cat = torch.cat([x_mean,x_max],dim=1)
+        conv_out = self.conv(x_cat)
+        out = F.sigmoid(conv_out)
+        return out*x
+class ChannelAttention(nn.Module):
+    def __init__(self,channels):
+        super(ChannelAttention,self).__init__()
+        self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1,1))
+        self.conv1=nn.Conv2d(channels,channels//2,kernel_size=1)
+        self.relu=nn.ReLU()
+        self.conv2=nn.Conv2d(channels//2,channels,kernel_size=1)
+        self.sigmoid=nn.Sigmoid()
+    def forward(self,input):
+        avg = self.avgpool(input)
+        out = self.relu(self.conv1(avg))
+        out = self.sigmoid(self.conv2(out))
+        out = input*out
+        return out
+
+
+class CBAM(nn.Module):
+    def __init__(self,channels):
+        super(CBAM,self).__init__()
+        self.channel_attention = ChannelAttention(channels=channels)
+        self.spatial_attention = SpatialAttention()
+    def forward(self,input):
+        out = self.channel_attention(input)
+        out = self.spatial_attention(out)
+        return out
+
 
 class FeatureFusionModule(nn.Module):
     def __init__(self,num_classes,in_channels):
@@ -69,9 +107,10 @@ class CombineModel(nn.Module):
         self.conv_list1 = nn.ModuleList()
         self.conv_list2 = nn.ModuleList()
         self.conv_last = nn.ModuleList()
+        self.cbam_list1 = nn.ModuleList()
         self.num = 8
         self.heads = opt.heads
-        last_out = 128 
+        last_out = 256
         for i in range(self.num):
             self.conv_list1.append(
                 nn.Sequential(
@@ -107,9 +146,11 @@ class CombineModel(nn.Module):
             #     )
             # )
             self.conv_last.append(
-                FeatureFusionModule(last_out,last_out)
+                FeatureFusionModule(last_out,last_out//2)
             )
-
+            self.cbam_list1.append(
+                CBAM(last_out)
+            )
             for head in self.heads:
                 classes = self.heads[head]
                 if head_conv > 0:
@@ -146,12 +187,13 @@ class CombineModel(nn.Module):
             # temp(out,i)
             out = self.conv_list2[i](out)
             # temp(out,i+1)
-            pred_hm = torch.clamp(centernet_last_out["hm"].sigmoid_(), min=1e-4, max=1 - 1e-4)
+            pred_hm = torch.clamp(F.sigmoid(centernet_last_out["hm"]), min=1e-4, max=1-1e-4)
             # import matplotlib.pyplot as plt
             # plt.imshow(pred_hm.detach().cpu().numpy()[0][0])
             # plt.show()
             out = self.conv_last[i](out,feat_out)*pred_hm
             # temp(out,i+2)
+            out = self.cbam_list1[i](out)
             per_frame_out_dict = {}
             for head in self.heads:
                 per_frame_out_dict[head] = self.__getattr__(str(i)+"_"+head)(out)

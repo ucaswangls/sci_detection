@@ -18,6 +18,7 @@ class TrainData(Dataset):
         for image_dir in os.listdir(opt.train_data_dir):
             temp_list = os.listdir(osp.join(opt.train_data_dir,image_dir,"img1"))
             temp_list.sort(key=lambda x:int(x[:-4]))
+            temp_list = temp_list[:len(temp_list)//2]
             meas_list = []
             for i,image_name in enumerate(temp_list):
                 meas_list.append(osp.join(opt.train_data_dir,image_dir,"img1",image_name))
@@ -327,6 +328,7 @@ class TestData(Dataset):
         for image_dir in os.listdir(opt.test_data_dir):
             temp_list = os.listdir(osp.join(opt.test_data_dir,image_dir,"img1"))
             temp_list.sort(key=lambda x:int(x[:-4]))
+            temp_list = temp_list[len(temp_list)//2:]
             meas_list = []
             for i,image_name in enumerate(temp_list):
                 meas_list.append(osp.join(opt.test_data_dir,image_dir,"img1",image_name))

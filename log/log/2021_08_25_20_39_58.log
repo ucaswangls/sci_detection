@@ -1,0 +1,4 @@
+2021-08-25 20:40:01,609 - main.py [line: 133] - Load pre_train model...
+2021-08-25 20:40:11,610 - main.py [line: 108] - epoch: 0, iter: 0, lr: 0.000100, loss: 62.308.
+2021-08-25 20:40:36,925 - main.py [line: 108] - epoch: 0, iter: 20, lr: 0.000100, loss: 50.256.
+2021-08-25 20:41:01,552 - main.py [line: 108] - epoch: 0, iter: 40, lr: 0.000100, loss: 46.434.
