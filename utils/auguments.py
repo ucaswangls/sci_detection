@@ -1,7 +1,8 @@
 import random 
 import albumentations as A
+from albumentations.augmentations.crops.transforms import CenterCrop 
 
-def transforms(im_h,im_w,scales=[0.2,0.8],):
+def transforms(im_h,im_w,scales=[0.35,0.6],):
     p = random.random()
     if p<0.4:
         crop_p=0
@@ -15,10 +16,9 @@ def transforms(im_h,im_w,scales=[0.2,0.8],):
     a = int(im_h*scales[0])
     b = int(im_h*scales[1])
     random_h = random.randint(a,b)
-    # a = int(im_w*scales[0])
-    # b = int(im_w*scales[1])
-    # random_w = random.randint(a,b)
-    random_w = int(random_h*1.0/im_h*im_w)
+    a = int(im_w*scales[0])
+    b = int(im_w*scales[1])
+    random_w = random.randint(a,b)
     x_min = random.randint(0,im_w-random_w)
     y_min = random.randint(0,im_h-random_h)
     # print("rand_w:",random_w)
@@ -30,7 +30,7 @@ def transforms(im_h,im_w,scales=[0.2,0.8],):
         A.Crop(x_min=x_min,y_min=y_min,x_max=x_max,y_max=y_max,p=crop_p),
         A.HorizontalFlip(p=flip_p),
         # A.ShiftScaleRotate(p=0.5),
-        A.RandomBrightnessContrast(p=0.5),
+        A.RandomBrightnessContrast(p=0.3),
         A.RGBShift(r_shift_limit=30, g_shift_limit=30, b_shift_limit=30, p=0.3),
         ],
         A.BboxParams(format="albumentations",label_fields=['category_ids'],min_visibility=0.1))

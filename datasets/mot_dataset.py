@@ -8,7 +8,7 @@ import cv2
 from utils.image import gaussian_radius, draw_umich_gaussian 
 from utils.auguments import transforms,test_transforms
 import math
-from utils.ttf_functions import bbox_areas, calc_region
+from loss.ttf_loss import *
 
 class TrainData(Dataset):
     def __init__(self,opt):
@@ -18,19 +18,12 @@ class TrainData(Dataset):
         for image_dir in os.listdir(opt.train_data_dir):
             temp_list = os.listdir(osp.join(opt.train_data_dir,image_dir,"img1"))
             temp_list.sort(key=lambda x:int(x[:-4]))
-            temp_list = temp_list[:len(temp_list)//2]
-            for tt in range(5):
-                meas_list = []
-                frame_count = 0
-                for i,image_name in enumerate(temp_list):
-                    if i % (tt+1) != 0:
-                        continue
-                    meas_list.append(osp.join(opt.train_data_dir,image_dir,"img1",image_name))
-                    frame_count +=1
-                    if frame_count%opt.ratio==0:
-                        self.img_files.append(meas_list)
-                        meas_list = []
-                        frame_count=0
+            meas_list = []
+            for i,image_name in enumerate(temp_list):
+                meas_list.append(osp.join(opt.train_data_dir,image_dir,"img1",image_name))
+                if (i+1)%opt.ratio==0:
+                    self.img_files.append(meas_list)
+                    meas_list = []
         self.mask = opt.mask
         self.ratio,self.resize_h,self.resize_w = self.mask.shape
         self.output_h,self.output_w = self.resize_h//opt.down_ratio,self.resize_w//opt.down_ratio
@@ -60,7 +53,6 @@ class TrainData(Dataset):
         image = cv2.imread(self.img_files[index][0])
         im_h,im_w,_ = image.shape
         transform = transforms(im_h=im_h,im_w=im_w)
-        meas_bboxes = []
         for i,image_path in enumerate(self.img_files[index]):
             label_path = image_path.replace('images', 'labels_with_ids').replace('.png', '.txt').replace('.jpg', '.txt')
             with open(label_path,"r") as fp:
@@ -90,7 +82,10 @@ class TrainData(Dataset):
             per_frame_id_list = transformed["category_ids"]
 
             image = cv2.resize(image,(self.resize_w,self.resize_h))
+
             for id_index,id in enumerate(per_frame_id_list):
+                if id not in box_dict.keys():
+                    box_dict[id] = [] 
                 im_w,im_h,_ = image.shape
                 temp_bbox = per_frame_bbox_list[id_index]
                 x1 = temp_bbox[0]*im_w
@@ -98,7 +93,8 @@ class TrainData(Dataset):
                 x2 = temp_bbox[2]*im_w
                 y2 = temp_bbox[3]*im_h
                 per_frame_bbox_list[id_index] = [x1,y1,x2,y2]
-                meas_bboxes.append([x1,y1,x2,y2])
+                box_dict[id].append(per_frame_bbox_list[id_index])
+            
             #     x1,y1,x2,y2 = [int(i) for i in per_frame_bbox_list[id_index]]
             #     cv2.rectangle(image,(x1,y1),(x2,y2),(255,0,255))
             # import matplotlib.pyplot as plt
@@ -141,7 +137,31 @@ class TrainData(Dataset):
             # ax2 = plt.subplot(2,1,2)
             # plt.imshow(frames_bboxes[frame_id].numpy()[2],alpha=1)
             # plt.show()
-        meas_bboxes = np.array(meas_bboxes)
+
+        meas_bboxes_list = []
+        meas_labels_list = []
+        for key in box_dict.keys():
+            temp_box = np.array(box_dict[key])
+            x1_min = np.min(temp_box[:,0])
+            y1_min = np.min(temp_box[:,1])
+            x2_max = np.max(temp_box[:,2])
+            y2_max = np.max(temp_box[:,3])
+            meas_bboxes_list.append([x1_min,y1_min,x2_max,y2_max])
+            meas_labels_list.append(1)
+        
+        # import matplotlib.pyplot as plt
+        # ax1 = plt.subplot(2,1,1)
+        # plt.imshow(meas,alpha=1)
+        # ax2 = plt.subplot(2,1,2)
+        # plt.imshow(hm[0],alpha=1)
+        # plt.show()
+        ret = {"input":torch.from_numpy(meas).unsqueeze(0)}
+        # ret.update({'hm': hm, 'reg':reg, 'reg_mask': reg_mask, 'ind': ind, 'wh': wh })
+        ret.update({"frames_hm":frames_hm,
+                    "frames_bboxes":frames_bboxes,
+                    "frames_reg_weight":frames_weight})
+        ret.update({"gt_images":np.array(gt_images_list)})
+        meas_bboxes = np.array(meas_bboxes_list)
         num_bbox = meas_bboxes.shape[0]
         if num_bbox != 0:
             meas_labels = np.ones(num_bbox,dtype=np.int32)
@@ -151,18 +171,6 @@ class TrainData(Dataset):
             heatmap = torch.zeros(self.num_classes, output_h, output_w)
             box_target = torch.zeros(4,output_h,output_w)
             reg_weight = torch.zeros(1,output_h,output_w)
-        # import matplotlib.pyplot as plt
-        # ax1 = plt.subplot(2,1,1)
-        # plt.imshow(meas,alpha=1)
-        # ax2 = plt.subplot(2,1,2)
-        # plt.imshow(heatmap[0],alpha=1)
-        # plt.show()
-        ret = {"input":torch.from_numpy(meas).unsqueeze(0)}
-        # ret.update({'hm': hm, 'reg':reg, 'reg_mask': reg_mask, 'ind': ind, 'wh': wh })
-        ret.update({"frames_hm":frames_hm,
-                    "frames_bboxes":frames_bboxes,
-                    "frames_reg_weight":frames_weight})
-        ret.update({"gt_images":np.array(gt_images_list)})
         ret.update({"heatmap":heatmap})
         ret.update({"box_target":box_target})
         ret.update({"reg_weight":reg_weight})
@@ -350,12 +358,10 @@ class TestData(Dataset):
         gt_images_list = []
         for i,image_path in enumerate(self.img_files[index]):
             image = cv2.imread(image_path)
-            im_h,im_w = image.shape[:2]
-            if im_h <512 or im_w <512:
-                image = cv2.resize(image,(512,512))
-            transformed = self.transforms(image=image)
-            image = transformed["image"]
+            # im_h,im_w = image.shape[:2]
             image = cv2.resize(image,(self.resize_w,self.resize_h))
+            # transformed = self.transforms(image=image)
+            # image = transformed["image"]
             pic_t = cv2.cvtColor(image,cv2.COLOR_BGR2YCrCb)[:,:,0]
             gt_images_list.append(pic_t)
             pic_t = pic_t.astype(np.float32)

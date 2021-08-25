@@ -1,2 +1,0 @@
-# sci_detection
-test

@@ -33,18 +33,6 @@ class ConvBlock(nn.Module):
     def forward(self,input):
         x=self.conv1(input)
         return self.relu(self.bn(x))
-class SpatialAttention(nn.Module):
-    def __init__(self,kernel_size=7):
-        super(SpatialAttention,self).__init__()
-        padding = 3 if kernel_size==7 else 1
-        self.conv = nn.Conv2d(2,1,kernel_size=kernel_size,padding=padding,bias=False)
-        self.sigmoid = nn.Sigmoid()
-    def forward(self,x):
-        avgout = torch.mean(x,dim=1,keepdim=True)
-        maxout,_ = torch.max(x,dim=1,keepdim=True)
-        x = torch.cat([avgout,maxout],dim=1)
-        x = self.conv(x)
-        return self.sigmoid(x)
 
 class FeatureFusionModule(nn.Module):
     def __init__(self,num_classes,in_channels):
@@ -81,10 +69,9 @@ class CombineModel(nn.Module):
         self.conv_list1 = nn.ModuleList()
         self.conv_list2 = nn.ModuleList()
         self.conv_last = nn.ModuleList()
-        self.spatial_att = nn.ModuleList()
         self.num = 8
         self.heads = opt.heads
-        last_out = 256 
+        last_out = 128 
         for i in range(self.num):
             self.conv_list1.append(
                 nn.Sequential(
@@ -119,11 +106,8 @@ class CombineModel(nn.Module):
             #     nn.ReLU()
             #     )
             # )
-            self.spatial_att.append(
-                SpatialAttention()
-            )
             self.conv_last.append(
-                FeatureFusionModule(last_out,last_out//2)
+                FeatureFusionModule(last_out,last_out)
             )
 
             for head in self.heads:
@@ -132,12 +116,6 @@ class CombineModel(nn.Module):
                     fc = nn.Sequential(
                         nn.Conv2d(last_out, head_conv,
                             kernel_size=3, padding=1, bias=True),
-                        nn.ReLU(inplace=True),
-                        nn.Conv2d(head_conv, head_conv,
-                            kernel_size=3, padding=1, bias=True),
-                        nn.ReLU(inplace=True),
-                        nn.Conv2d(head_conv, head_conv,
-                            kernel_size=1, bias=True),
                         nn.ReLU(inplace=True),
                         nn.Conv2d(head_conv, classes, 
                             kernel_size=final_kernel, stride=1, 
@@ -163,13 +141,42 @@ class CombineModel(nn.Module):
         out_list = []
         for i in range(self.num):
             input = admm_out[:,i].unsqueeze(1)
+            # temp(input,i-1)
             out = self.conv_list1[i](input)
+            # temp(out,i)
             out = self.conv_list2[i](out)
-            spatil_attention = self.spatial_att[i](out)
-            feat_out = spatil_attention*feat_out
+            # temp(out,i+1)
             out = self.conv_last[i](out,feat_out)
+            # temp(out,i+2)
             per_frame_out_dict = {}
             for head in self.heads:
                 per_frame_out_dict[head] = self.__getattr__(str(i)+"_"+head)(out)
             out_list.append(per_frame_out_dict)
         return centernet_last_out,out_list
+count = 0
+
+def temp(out,i):
+    import numpy as np 
+    from torchvision.utils import make_grid
+    feat_vis = out[0].unsqueeze(1)
+    size = feat_vis.shape[0]
+    feat_vis = make_grid(feat_vis,nrow=int(np.sqrt(size)))
+    imshow(feat_vis,i)
+def imshow(image,name="temp"):
+    global count
+    import matplotlib.pyplot as plt
+    import cv2
+    import os.path as osp
+    image = image.detach().cpu().numpy()
+    image = image.transpose((1,2,0))[:,:,0]
+    plt.imshow(image,cmap="gray")
+    # cv2.imshow("image",image)
+    # cv2.waitKey(0)
+    cv2.imwrite("tt.png",image)
+    save_dir = "temp"
+    image_name = osp.join(save_dir,str(name))
+    print("image_name:",image_name)
+    if osp.exists(image_name+".png"):
+        image_name = image_name+str(count)
+        count+=1
+    plt.savefig("{}.png".format(image_name),dpi=300)

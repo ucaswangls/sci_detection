@@ -8,8 +8,10 @@ from opts import get_args
 from torch.utils.data import DataLoader
 from models.combine_model import CombineModel,AdmmNet
 import matplotlib.pyplot as plt
+from utils.decode import multi_pose_decode
 import os.path as osp
-from utils.ttf_functions import ttf_decode
+from loss.ttf_loss import TTFLoss
+
 def test(opt):
     admm_net = AdmmNet(opt).to(opt.device)
     admm_net = admm_net.eval()
@@ -33,6 +35,7 @@ def test(opt):
             # pin_memory=True,
             drop_last=True
     )
+    ttf = TTFLoss()
     for epoch in range(start_epoch + 1, opt.epochs + 1):
         for iter, batch_data in enumerate(test_loader):
             for k in batch_data:
@@ -45,7 +48,7 @@ def test(opt):
                 gt_image = gt_images[:,0]
                 # out['hm'] = torch.sigmoid(out['hm'])
                 # scores,bboxes = multi_pose_decode(out["hm"],out["wh"],out["reg"])
-                results = ttf_decode(out["hm"],out["wh"])
+                results = ttf.get_bboxes(out["hm"],out["wh"])
             image = gt_image
             image = image.squeeze(1).cpu().numpy()
             hm = out['hm']
@@ -65,7 +68,7 @@ def test(opt):
                     count += 1
                     box = bboxes[:4]
                     x1,y1,x2,y2 = [int(x) for x in box]
-                    box[[0,2]] = box[[0,2]] + i*
+                    box[[0,2]] = box[[0,2]] + i*512
                     x1,y1,x2,y2 = [int(ii) for ii in box]
                     # 默认框的颜色是黑色，第一个参数是左上角的点坐标
                     # 第二个参数是宽，第三个参数是长
