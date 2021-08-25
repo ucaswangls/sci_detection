@@ -146,7 +146,11 @@ class CombineModel(nn.Module):
             # temp(out,i)
             out = self.conv_list2[i](out)
             # temp(out,i+1)
-            out = self.conv_last[i](out,feat_out)
+            pred_hm = torch.clamp(centernet_last_out["hm"].sigmoid_(), min=1e-4, max=1 - 1e-4)
+            # import matplotlib.pyplot as plt
+            # plt.imshow(pred_hm.detach().cpu().numpy()[0][0])
+            # plt.show()
+            out = self.conv_last[i](out,feat_out)*pred_hm
             # temp(out,i+2)
             per_frame_out_dict = {}
             for head in self.heads:

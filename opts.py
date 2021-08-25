@@ -4,7 +4,7 @@ from utils.utils import get_masks
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--epochs",type=int,default=200)
-    parser.add_argument("--batch_size",type=int,default=4)
+    parser.add_argument("--batch_size",type=int,default=8)
     parser.add_argument("--height",type=int,default=512)
     parser.add_argument("--width",type=int,default=512)
     parser.add_argument("--num_workers",type=int,default=4)
