@@ -1,0 +1,7 @@
+2021-08-26 14:17:57,973 - main.py [line: 137] - No pre_train model
+2021-08-26 14:18:07,125 - main.py [line: 109] - epoch: 0, iter: 0, lr: 0.000100, loss: 68.523.
+2021-08-26 14:18:27,249 - main.py [line: 109] - epoch: 0, iter: 20, lr: 0.000100, loss: 59.971.
+2021-08-26 14:18:47,264 - main.py [line: 109] - epoch: 0, iter: 40, lr: 0.000100, loss: 61.040.
+2021-08-26 14:19:07,278 - main.py [line: 109] - epoch: 0, iter: 60, lr: 0.000100, loss: 47.089.
+2021-08-26 14:19:27,326 - main.py [line: 109] - epoch: 0, iter: 80, lr: 0.000100, loss: 51.756.
+2021-08-26 14:19:47,513 - main.py [line: 109] - epoch: 0, iter: 100, lr: 0.000100, loss: 56.365.

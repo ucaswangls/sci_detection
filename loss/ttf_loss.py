@@ -188,10 +188,10 @@ class TTFLoss(nn.Module):
     
     def forward(self,
              pred_heatmap,
+             pred_wh,
              hm,
-             pred_wh=None,
-             gt_bboxes=None,
-             wh_weight=None,
+             gt_bboxes,
+             wh_weight,
              gt_bboxes_ignore=None):
         hm_loss, wh_loss = self.loss_calc(pred_heatmap, pred_wh, hm,gt_bboxes,wh_weight)
         return hm_loss + wh_loss
@@ -218,8 +218,7 @@ class TTFLoss(nn.Module):
         H, W = pred_hm.shape[2:]
         pred_hm = torch.clamp(pred_hm.sigmoid_(), min=1e-4, max=1 - 1e-4)
         hm_loss = ct_focal_loss(pred_hm, heatmap) * self.hm_weight
-        if pred_wh is None:
-            return hm_loss,0.
+
         mask = wh_weight.view(-1, H, W)
         avg_factor = mask.sum() + 1e-4
 

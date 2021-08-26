@@ -13,7 +13,6 @@ from models.combine_model import CombineModel, AdmmNet
 import matplotlib.pyplot as plt
 from utils.decode import multi_pose_decode
 from loss.ttf_loss import TTFLoss
-import torch.nn.functional as F
 def eval(opt):
     train_data = TrainData(opt)
     # print(opt)
@@ -44,9 +43,7 @@ def eval(opt):
             results_list = []
             with torch.no_grad():
                 admm_out = admm_net(image)[-1]
-                _out = model(image,admm_out)
-                center_out = _out[0]
-                out_all = _out[1]
+                out_all = model(image,admm_out)[1]
                 for out in out_all:
                     gt_image = gt_images[:,0]
                     # out['hm'] = torch.sigmoid(out['hm'])
@@ -56,7 +53,7 @@ def eval(opt):
             image = gt_image
             image = image.squeeze(1).cpu().numpy()
             #error ....!!!!
-            hm = F.sigmoid(center_out['hm'])
+            hm = out['hm']
             hm = hm.squeeze(1).cpu().numpy()
 
             image = image.transpose(1,0,2).reshape(image.shape[1],-1)

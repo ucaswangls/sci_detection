@@ -9,6 +9,7 @@ from torch.utils.tensorboard import SummaryWriter
 from opts import get_args
 import os
 import os.path as osp
+# from loss.loss import CenterNetLoss 
 from loss.ttf_loss import TTFLoss 
 from torch.cuda.amp import autocast,GradScaler
 import time
@@ -71,7 +72,7 @@ def train(args,network,logger,writer=None):
             heatmap = batch_data["heatmap"]
             box_target = batch_data["box_target"]
             reg_weight = batch_data["reg_weight"]
-            loss1 = criterion(pred_heatmap,heatmap)
+            loss1 = criterion(pred_heatmap,pred_wh,heatmap,box_target,reg_weight)
             
             frames_loss = 0
             for i,frame_out in enumerate(out[1]):
@@ -88,7 +89,7 @@ def train(args,network,logger,writer=None):
                 heatmap = batch_data["frames_hm"][:,i]
                 box_target= batch_data["frames_bboxes"][:,i]
                 reg_weight= batch_data["frames_reg_weight"][:,i]
-                frames_loss += criterion(pred_heatmap,heatmap,pred_wh,box_target,reg_weight)
+                frames_loss += criterion(pred_heatmap,pred_wh,heatmap,box_target,reg_weight)
                 # frames_loss += criterion(frame_out,gt_data)
             
             sum_loss = 0.1*loss1+frames_loss
@@ -131,15 +132,7 @@ if __name__ == '__main__':
     #加载模型
     if args.checkpoint is not None:
         logger.info("Load pre_train model...")
-        model_dict = network.state_dict()
-        pretrained_dict = torch.load(osp.join(args.checkpoints_dir,args.checkpoint))
-        pretrained_dict = {k:v for k,v in pretrained_dict.items() if k in model_dict}
-        for k in pretrained_dict:
-            if model_dict[k].shape != pretrained_dict[k].shape:
-                pretrained_dict[k] = model_dict[k]
-                # print("layer: {} parameters size is not same!".format(k))
-        model_dict.update(pretrained_dict)
-        network.load_state_dict(model_dict,strict=False)
+        network.load_state_dict(torch.load(osp.join(args.checkpoints_dir,args.checkpoint)))
     else:
         logger.info("No pre_train model")
     #开始训练

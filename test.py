@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 from utils.decode import multi_pose_decode
 import os.path as osp
 from loss.ttf_loss import TTFLoss
-import numpy as np 
 
 def test(opt):
     admm_net = AdmmNet(opt).to(opt.device)
@@ -64,7 +63,7 @@ def test(opt):
             for i in range(len(results)):
                 for j,bboxes in enumerate(results[i][0]):
                     score = bboxes[4]
-                    if score.item() < 0.2:
+                    if score.item() < 0.1:
                         continue
                     count += 1
                     box = bboxes[:4]
@@ -73,7 +72,6 @@ def test(opt):
                     x1,y1,x2,y2 = [int(ii) for ii in box]
                     # 默认框的颜色是黑色，第一个参数是左上角的点坐标
                     # 第二个参数是宽，第三个参数是长
-                    t = np.random.randint(0,len(opt.colors))
                     ax.add_patch(plt.Rectangle((x1, y1), x2-x1, y2-y1, color="blue", fill=False, linewidth=1))
             print("count1:",count)
             plt.imshow(image,cmap="gray")
